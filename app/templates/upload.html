@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='es'>
+    <head>
+        <meta charset = 'UTF-8'>
+        <meta name = 'viewport', content = 'width = device-width, initial-scale=1.0'>
+        <link rel = 'stylesheet', href='{{ url_for('static', filename = 'styles.css')}}'>
+        <title>Subir pdf</title>
+    </head>
+    <body>
+        <div class = 'container'>
+            <h1>Arrastra y suelta tu archivo PDF aquí</h1>
+            <form id = 'upload-form', action = '/upload', method = 'POST', enctype = 'multipart/form-data'>
+                <div id = 'drop-area'>   
+                    <p>Arraztra y suelta tu archivo PDF aquí o haz click para selecionar uno.</p>
+                    <input type = 'file', id = 'fileElem', name = 'file', accept = 'application/pdf', onchange = 'handleFiles(this.files)'>
+                    <label for = 'fileElem'>Seleccionar archivo</label>
+                </div>
+                <button type = 'submit'>Subir</button>
+            </form>
+        </div>
+
+        <script>
+            let dorpArea = document.getElementById('drop-area');
+
+            dropArea.addEvenListener('dragover', (event) => {
+                event.preventDefault(); 
+                dropArea.classList.add('highlight');
+            });
+
+            dropArea.addEvenListener('dragleave', () => {
+                dropArea.classList.remove('highlight');
+            });
+
+            dropArea.addEvenListener('drop', (event) => {
+                event.preventDefault();
+                dropArea.classList.remove('highlight');
+                handleFiles(event.dataTransfer.files);
+            });
+
+            function handleFiles():
+                const fileInput = document.getElementById('fileElem');
+                fileInput.files = files;
+        </script>
+        
+
+    </body>
+</html>
