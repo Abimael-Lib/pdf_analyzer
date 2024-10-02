@@ -34,11 +34,10 @@ def upload_file():
             return redirect(url_for('analyze_pdf', filename = file.filename))
     
     return render_template('upload.html')
-    
 
 
 # Funcion para analizar el pdf
-@app.route('analyze/filename')
+@app.route('/analyze/filename')
 def analyze_pdf(filename):
     pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     
@@ -58,24 +57,5 @@ if __name__ == '__main__':
         os.makedirs(app.config('UPLOAD_FOLDER'))
 
     app.run(debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
