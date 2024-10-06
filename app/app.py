@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 from PyPDF2 import PdfReader
 import logging
+from collections import Counter
+import re  # Para limpiar el texto
 
 app = Flask(__name__)
 
@@ -46,7 +48,7 @@ def upload_file():
     
     return render_template('upload.html')
 
-# Función para analizar el pdf
+# Función para analizar el pdf y contar palabras
 @app.route('/analyze/<filename>')
 def extract_text_from_pdf(filename):
     pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -57,7 +59,16 @@ def extract_text_from_pdf(filename):
             text = ''
             for page in pdf_reader.pages:
                 text += page.extract_text()
-        return render_template('analyze.html', text=text)
+
+        # Limpiar el texto y contar las palabras
+        words = re.findall(r'\b\w+\b', text.lower())  # Encontrar palabras ignorando mayúsculas
+        
+        # Filtrar números y letras sueltas (a, i, etc.)
+        filtered_words = [word for word in words if len(word) > 1 and not word.isdigit()]
+        
+        word_count = Counter(filtered_words)
+
+        return render_template('analyze.html', text=text, word_count=word_count.most_common())
     except Exception as e:
         app.logger.error(f"Error al analizar el PDF: {str(e)}")
         return f"Error al analizar el PDF: {str(e)}"
@@ -65,3 +76,4 @@ def extract_text_from_pdf(filename):
 # Inicializar la app
 if __name__ == '__main__':
     app.run(debug=True)
+

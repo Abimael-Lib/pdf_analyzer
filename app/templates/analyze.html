@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis del PDF</title>
-</head>
-<body>
-    <h1>Texto Extraído del PDF</h1>
-    <pre>{{ text }}</pre>
-    <a href="/">Volver a subir otro archivo</a>
-</body>
-</html>
+<h1>Título del PDF:</h1>
+<p>{{ title }}</p>
+
+<h2>Conteo de palabras:</h2>
+<ul>
+  {% for word, count in word_count %}
+    <li>{{ word }}: {{ count }}</li>
+  {% endfor %}
+</ul>
+
